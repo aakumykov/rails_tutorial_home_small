@@ -31,4 +31,10 @@ describe "Static pages" do
     it { should have_title("#{base_title} | Contact") }
   end
 
+  describe "Signup page" do
+    before { visit signup_path }
+    it { should have_content('Signup') }
+    it { should have_title("#{base_title} | Signup") }
+  end
+
 end
