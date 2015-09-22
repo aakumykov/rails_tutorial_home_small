@@ -7,13 +7,13 @@ describe 'Static pages' do
   let(:base_title) { 'Ruby on Rails Tutorial Sample App' }
 
   shared_examples_for 'all static pages' do
-    it { should have_title("#{base_title} | #{title}") }
+    it { should have_title(full_title(page_title)) }
     it { should have_selector('h1', text: heading) }
   end
 
   describe "Home page" do
     before { visit root_path }
-    let(:title) { '' }
+    let(:page_title) { '' }
     let(:heading)    { 'Sample App' }
     it_should_behave_like "all static pages"
    
@@ -22,21 +22,21 @@ describe 'Static pages' do
 
   describe "Help page" do
     before { visit help_path }
-    let(:title) { 'Help' }
+    let(:page_title) { 'Help' }
     let(:heading) {'Страница помощи'}
     it_should_behave_like 'all static pages'
   end
 
   describe "About page" do
   	before { visit about_path }
-    let(:title) { 'About' }
+    let(:page_title) { 'About' }
     let(:heading) {'О нас'}
     it_should_behave_like 'all static pages'
   end
 
   describe "Contact page" do
-  	before { visit contact_page }
-    let(:title) { 'Contact' }
+  	before { visit contact_path }
+    let(:page_title) { 'Contact' }
     let(:heading) {'Контакты'}
     it_should_behave_like 'all static pages'
   end
