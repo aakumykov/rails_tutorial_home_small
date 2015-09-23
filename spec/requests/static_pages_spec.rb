@@ -42,15 +42,21 @@ describe 'Static pages' do
   end
 
   it "should have the right links on the layout" do
+
+    visit root_path
+      click_on 'Sign up now!'
+      expect(page).to have_title(full_title('Sign up'))
     
     visit root_path
 
-      #click_on "Home"
+      click_on "Home"
+      expect(page).to have_selector('h1','Sample App')
+      expect(page).to have_selector('h1','Welcome to the Sample App')
 
       click_on "Help"
       expect(page).to have_title(full_title('Help'))
 
-      #click_on "Sign in"
+      #click_on "Sign up"
       #expect(page).to have_title(full_title('Sign up'))
 
       click_on "About"
@@ -60,10 +66,6 @@ describe 'Static pages' do
       expect(page).to have_title(full_title('Contact'))
 
       #click_on "News"
-    
-    visit root_path
-      click_on 'Sign up now!'
-      expect(page).to have_title(full_title('Sign up'))
 
     #click_on "sample app"
     #expect(page).to # заполнить
