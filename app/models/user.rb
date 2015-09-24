@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 		presence: true,
 		format: { with: VALID_EMAIL_REGEX },
 		uniqueness: true,
-		#uniqueness: { case_sensitive: false },
+		uniqueness: { case_sensitive: false },
 	}
 	
 end
