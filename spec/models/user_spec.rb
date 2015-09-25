@@ -22,10 +22,10 @@ describe User do
     it { should_not be_valid }
   end
 
-  # describe "when email is not present" do
-  #   before { @user.email = " " }
-  #   it { should_not be_valid }
-  # end
+  describe 'когда отсутствует email' do
+    before { @user.email = ' ' }
+    it { should_not be_valid }
+  end
 
   # describe "when name is too long" do
   #   before { @user.name = "a" * 51 }
