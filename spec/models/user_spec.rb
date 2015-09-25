@@ -23,7 +23,7 @@ describe User do
 	it { should be_valid }
 
 
-	describe 'when name is not present' do
+	describe 'когда нет имени пользователя' do
 		before { @user.name = ' ' }
 		it { should_not be_valid }
 	end
@@ -102,5 +102,11 @@ describe User do
 			it { should_not eq user_for_invalid_password }
 			specify { expect(user_for_invalid_password).to be_false }
 		end
+	end
+
+
+	describe 'со слишком коротким паролем' do
+		before { @user.password = @user.password_confirmation = "a" * 5 }
+		it { should be_invalid }
 	end
 end
