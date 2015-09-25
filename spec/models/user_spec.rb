@@ -48,15 +48,20 @@ describe User do
     end
   end
 
-  # describe "when email format is valid" do
-  #   it "should be valid" do
-  #     addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
-  #     addresses.each do |valid_address|
-  #       @user.email = valid_address
-  #       expect(@user).to be_valid
-  #     end
-  #   end
-  # end
+  describe 'когда правильный формат электронной почты' do
+    it 'модель должна быть корректной' do
+      addresses = %w[
+      	user@foo.COM 
+      	A_US-ER@f.b.org 
+      	frst.lst@foo.jp 
+      	a+b@baz.cn
+      ]
+      addresses.each do |valid_address|
+        @user.email = valid_address
+        expect(@user).to be_valid
+      end
+    end
+  end
 
   # describe "when email address is already taken" do
   #   before do
