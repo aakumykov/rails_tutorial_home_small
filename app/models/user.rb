@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   
  # attr_accessor :password, :password_confirmation
 
-  before_save { self.email = email.downcase }
+  before_save { email.downcase! }
   
   validates :name, {
   	presence: true, 
