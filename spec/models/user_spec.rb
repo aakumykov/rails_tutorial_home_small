@@ -45,6 +45,7 @@ describe User do
       	example.user@foo. 
       	foo@bar_baz.com 
       	foo@bar+baz.com
+        foo@bar..com
       ]
       addresses.each do |invalid_address|
         @user.email = invalid_address
@@ -53,7 +54,7 @@ describe User do
     end
   end
 
-  describe 'когда правильный формат электронной почты' do
+  describe 'когда верный формат электронной почты' do
     it 'модель должна быть корректной' do
       addresses = %w[
       	user@foo.COM 
