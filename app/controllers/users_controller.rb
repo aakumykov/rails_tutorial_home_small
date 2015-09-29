@@ -21,6 +21,7 @@ class UsersController < ApplicationController
     if @user.save
       #redirect_to user_path(@user.id)
       redirect_to @user
+      flash[:success] = "Пользователь '#{@user.name}' зарегистрирован."
     else
       render 'new'
     end
