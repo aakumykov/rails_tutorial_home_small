@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+
+	attr_accessor :current_user
 	
 	# страница входа (создания новой сессии)
 	def new
