@@ -21,6 +21,11 @@ describe 'Аутентификация,' do
     	#expect(page).to have_title('Sign in')
     	it { should have_title(signin_title) }
     	it { should have_selector('div.alert.alert-error') }
+
+		describe 'после перехода на другую страницу' do
+			before { click_link "Home" }
+			it { should_not have_selector('div.alert.alert-error') }
+		end
     end
 
 
