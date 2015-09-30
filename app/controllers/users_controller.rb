@@ -16,12 +16,11 @@ class UsersController < ApplicationController
 
   # create
   def create
-  	@user = User.new(user_params)    # Not the final implementation!
-
+    @user = User.new(user_params)
     if @user.save
-      #redirect_to user_path(@user.id)
+      sign_in @user
+      flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
-      flash[:success] = "Пользователь '#{@user.name}' зарегистрирован."
     else
       render 'new'
     end

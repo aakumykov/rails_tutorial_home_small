@@ -7,7 +7,7 @@ describe 'Аутентификация,' do
   let(:signin_title) { 'Sign in' }
 
 
-  describe 'страница входа' do
+  describe 'страница входа,' do
 
     before { visit signin_path }
 
@@ -15,21 +15,21 @@ describe 'Аутентификация,' do
     it { should have_content('Вход на сайт') }
     
 
-    describe 'с неверными аутентификационными данными' do
+    describe 'с неверными аутентификационными данными,' do
     	before { click_button 'Sign in' }
     	
     	#expect(page).to have_title('Sign in')
     	it { should have_title(signin_title) }
     	it { should have_selector('div.alert.alert-error') }
 
-		describe 'после перехода на другую страницу' do
+		describe 'после перехода на другую страницу,' do
 			before { click_link "Home" }
 			it { should_not have_selector('div.alert.alert-error') }
 		end
     end
 
 
-    describe 'с верными аутентификационными данными' do
+    describe 'с верными аутентификационными данными,' do
       let(:user) { FactoryGirl.create(:user) }
       
       before do
@@ -42,6 +42,11 @@ describe 'Аутентификация,' do
       it { should have_link('Profile',     href: user_path(user)) }
       it { should have_link('Sign out',    href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
+
+      describe 'последующий выход,' do
+        before { click_link "Sign out" }
+        it { should have_link('Sign in') }
+      end
     end
 
 

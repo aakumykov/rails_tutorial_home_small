@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-
-	attr_accessor :current_user
 	
 	# страница входа (создания новой сессии)
 	def new
@@ -21,6 +19,8 @@ class SessionsController < ApplicationController
 
 	# удаление сессии
 	def destroy
+		sign_out
+		redirect_to root_url
 	end
 
 end

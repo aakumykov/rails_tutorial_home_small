@@ -4,7 +4,7 @@ describe "User pages" do
 
   subject { page }
 
-  describe 'страница профиля' do
+  describe 'страница профиля,' do
     let(:user) { FactoryGirl.create(:user) }
     
     before { visit user_path(user) }
@@ -14,7 +14,7 @@ describe "User pages" do
   end
 
 
-  describe 'страница регистрации' do
+  describe 'страница регистрации,' do
 
     before { visit signup_path }
 
@@ -23,13 +23,13 @@ describe "User pages" do
 
     let(:submit) { "Create my account" }
 
-    describe 'неверно заполненная' do
+    describe ', неверно заполненная,' do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
     end
 
-    describe 'верно заполненная' do
+    describe 'верно заполненная,' do
       before do
         fill_in "Name",         with: "Example User"
         fill_in "Email",        with: "user@example.com"
@@ -37,10 +37,21 @@ describe "User pages" do
         fill_in "Confirmation", with: "foobar"
       end
 
-      it 'должен быть создан пользователь' do
-        expect { click_button submit }.to change(User, :count).by(1)
+      #it ', должен быть создан пользователь' do
+      #  expect { click_button submit }.to change(User, :count).by(1)
+      #end
+
+      describe 'после регистрации,' do
+        before { click_button submit }
+        let(:user) { User.find_by(email: 'user@example.com') }
+
+        it { should have_link('Sign out') }
+        it { should have_title(user.name) }
+        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
+
     end
+
   end
 
 end
