@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 	
-	# страница входа (создания новой сессии)
+	# страница входа пользователя
 	def new
 	end
 
