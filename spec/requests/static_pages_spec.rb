@@ -50,8 +50,8 @@ describe 'Static pages' do
     visit root_path
 
       click_on "Home"
-      expect(page).to have_selector('h1','Sample App')
-      expect(page).to have_selector('h1','Welcome to the Sample App')
+      expect(page).to have_selector('h1','Добро пожаловать!')
+      expect(page).to have_selector('h1','Учебное приложение')
 
       click_on "Help"
       expect(page).to have_title(full_title('Help'))
