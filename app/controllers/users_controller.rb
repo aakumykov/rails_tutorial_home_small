@@ -5,6 +5,10 @@ class UsersController < ApplicationController
   	@user = User.new
   end
 
+  # список пользователей
+  def index
+  end
+
   # профиль пользователя
   def show
   	@user = User.find(params[:id])
