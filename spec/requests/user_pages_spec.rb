@@ -23,9 +23,15 @@ describe "User pages" do
 
     let(:submit) { "Create my account" }
 
-    describe ', неверно заполненная,' do
+    describe 'неверно заполненная,' do
       it 'не должен создаваться пользователь,' do
         expect { click_button submit }.not_to change(User, :count)
+      end
+
+      describe 'должно появиться сообщение об ошибках,' do
+        before(:each) { click_button submit }
+        it { should have_selector('#error_explanation','The form contains') }
+        it { should have_selector('.alert.alert-error') }
       end
     end
 
@@ -47,7 +53,7 @@ describe "User pages" do
 
         it { should have_link('Sign out') }
         it { should have_title(user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_selector('.alert.alert-success', text: 'Welcome') }
       end
 
     end
