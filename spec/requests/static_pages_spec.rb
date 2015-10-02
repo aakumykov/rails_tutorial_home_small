@@ -15,7 +15,7 @@ describe 'Static pages' do
     before { visit root_path }
 
     let(:page_title) { '' }
-    let(:heading)    { 'Sample App' }
+    let(:heading)    { 'Добро пожаловать!' }
     it_should_behave_like "all static pages"
     it { should_not have_title('| Home') }
   end
