@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "User pages" do
+describe "User pages," do
 
   subject { page }
 
@@ -30,7 +30,7 @@ describe "User pages" do
 
       describe 'должно появиться сообщение об ошибках,' do
         before(:each) { click_button submit }
-        it { should have_selector('#error_explanation','The form contains') }
+        it { should have_selector('#error_explanation') }
         it { should have_selector('.alert.alert-error') }
       end
     end
