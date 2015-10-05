@@ -57,14 +57,31 @@ describe 'Аутентификация,' do
 			describe 'в контроллере Users,' do
 
 				describe 'посещение страницы редактирования профиля,' do
-					before { visit edit_user_path(user) }
+					before(:each) { visit edit_user_path(user) }
 					it { should have_title('Sign in') }
 				end
 
 				describe 'отправка данных в действие update,' do
-					before { patch user_path(user) }
+					before(:each) { patch user_path(user) }
 					specify { expect(response).to redirect_to(signin_path) }
 				end
+			end
+		end
+
+		describe 'для ложных пользователей,' do
+			let(:user) { FactoryGirl.create(:user) }
+			let(:wrong_user) { FactoryGirl.create(:user, email: SecureRandom.uuid+"@example.com") }
+			before(:each) { sign_in user, no_capybara: true }
+
+			describe 'отправка GET-запроса к Users#edit' do
+				before(:each) { get edit_user_path(wrong_user) }
+				specify { expect(response.body).not_to match(full_title('Обновление вашего профиля')) }
+				specify { expect(response).to redirect_to(root_url) }
+			end
+
+			describe 'отправка PATCH-запроса к Users#update' do
+				before(:each) { patch user_path(wrong_user) }
+				specify { expect(response).to redirect_to(root_url) }
 			end
 		end
 

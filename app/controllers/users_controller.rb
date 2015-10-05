@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :signed_in_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
 
   # страница регистрации пользователя
   def new
@@ -29,15 +30,14 @@ class UsersController < ApplicationController
 
   # страница редактирования
   def edit
-    @user = User.find(params[:id])
-    #@user = User.find_by(id: params[:id])
+    # @user теперь устанавливается в correct_user()
   end
 
   # обновление данных пользователя
   def update
-    @user = User.find(params[:id])
+    # @user теперь устанавливается в correct_user()
     if @user.update_attributes(user_params)
-      flash[:success] = 'Данные пользователя успешно изменены'
+      flash[:success] = 'Данные пользователя изменены'
       redirect_to @user
     else
       render 'edit'
@@ -55,4 +55,8 @@ class UsersController < ApplicationController
       redirect_to signin_url, notice: 'Пожалуйста, войдите.' unless signed_in?
     end
 
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to root_url, alert: 'Нельзя редактировать чужой профиль.' unless current_user?(@user)
+    end
 end
