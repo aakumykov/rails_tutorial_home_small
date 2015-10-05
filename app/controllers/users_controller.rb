@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :signed_in_user, only: [:edit, :update]
 
   # страница регистрации пользователя
   def new
@@ -48,6 +49,10 @@ class UsersController < ApplicationController
     
     def user_params
     	params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def signed_in_user
+      redirect_to signin_url, notice: 'Пожалуйста, войдите.' unless signed_in?
     end
 
 end
