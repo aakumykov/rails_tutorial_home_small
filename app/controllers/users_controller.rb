@@ -26,6 +26,23 @@ class UsersController < ApplicationController
     end
   end
 
+  # страница редактирования
+  def edit
+    @user = User.find(params[:id])
+    #@user = User.find_by(id: params[:id])
+  end
+
+  # обновление данных пользователя
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = 'Данные пользователя успешно изменены'
+      redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
 
   private
     
