@@ -9,8 +9,8 @@ class SessionsController < ApplicationController
 	  user = User.find_by(email: params[:session][:email].downcase)
 	  if user && user.authenticate(params[:session][:password])
 	    sign_in user
-	    redirect_to user
-	    #redirect_to user_path(user.id)
+	    redirect_back_or user
+	    #redirect_back_or user_path(user.id)
 	  else
 	    flash.now[:error] = 'Неверная комбинация логин/пароль'
 	    render 'new'

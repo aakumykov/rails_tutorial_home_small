@@ -66,6 +66,22 @@ describe 'Аутентификация,' do
 					specify { expect(response).to redirect_to(signin_path) }
 				end
 			end
+
+			describe 'посещение защищённой страницы,' do
+				before do
+					visit edit_user_path(user)
+					fill_in "Email",    with: user.email
+					fill_in "Password", with: user.password
+					click_button "Sign in"
+				end
+
+				describe 'после аутентификации,' do
+					it 'должна отображаться желаемая защищённая страница,' do
+						expect(page).to have_title('Редактирование пользователя')
+						#it { should have_title('Редактирование пользователя') }
+					end
+				end
+			end
 		end
 
 		describe 'для ложных пользователей,' do
