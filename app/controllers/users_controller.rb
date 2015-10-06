@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:edit, :update]
+  before_action :signed_in_user, only: [:index, :edit, :update]
   before_action :correct_user, only: [:edit, :update]
 
   # страница регистрации пользователя
@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
   # список пользователей
   def index
+    @users = User.all
   end
 
   # профиль пользователя

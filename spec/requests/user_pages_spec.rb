@@ -102,7 +102,25 @@ describe "Страницы пользователя," do
 			it { should have_selector('div.alert.alert-success') }
 			it { should have_link('Sign out', href: signout_path) }
 		end
+	end
 
+
+	describe 'список пользователей,' do
+		before do
+			sign_in FactoryGirl.create(:user)
+			FactoryGirl.create(:user, name: "Bob", email: "bob@example.com")
+			FactoryGirl.create(:user, name: "Ben", email: "ben@example.com")
+			visit users_path
+		end
+
+		it { should have_title('Список пользователей') }
+		it { should have_content('Список пользователей') }
+
+		it 'должны отображаться все пользователи,' do
+			User.all.each do |user|
+				expect(page).to have_selector('li', text: user.name)
+			end
+		end
 	end
   
 end

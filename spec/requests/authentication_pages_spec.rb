@@ -38,6 +38,7 @@ describe 'Аутентификация,' do
 			it { should have_title(user.name) }
 			it { should have_link('Profile',     href: user_path(user)) }
 			it { should have_link('Settings',    href: edit_user_path(user)) }
+			it { should have_link('Users',		 href: users_path) }
 			it { should have_link('Sign out',    href: signout_path) }
 			it { should_not have_link('Sign in', href: signin_path) }
 
@@ -47,7 +48,7 @@ describe 'Аутентификация,' do
 			end
 		end
 
-	end
+	end # страница входа конецъ
 
 	describe 'авторизация,' do
 		
@@ -64,6 +65,11 @@ describe 'Аутентификация,' do
 				describe 'отправка данных в действие update,' do
 					before(:each) { patch user_path(user) }
 					specify { expect(response).to redirect_to(signin_path) }
+				end
+
+				describe 'посещение страницы списка пользователей,' do
+					before(:each) { visit users_path }
+					it { should have_title('Sign in') }
 				end
 			end
 
