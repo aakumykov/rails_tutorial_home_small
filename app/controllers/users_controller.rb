@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   # список пользователей
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page])
   end
 
   # профиль пользователя

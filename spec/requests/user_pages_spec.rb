@@ -116,9 +116,16 @@ describe "Страницы пользователя," do
 		it { should have_title('Список пользователей') }
 		it { should have_content('Список пользователей') }
 
-		it 'должны отображаться все пользователи,' do
-			User.all.each do |user|
-				expect(page).to have_selector('li', text: user.name)
+		describe 'разбиение на страницы,' do
+			before(:all) { 30.times { FactoryGirl.create(:user) } }
+			after(:all)  { User.delete_all }
+
+			it { should have_selector('div.pagination') }
+
+			it 'должны отображаться все пользователи,' do
+				User.paginate(page: 1).each do |user|
+					expect(page).to have_selector('li', text: user.name)
+				end
 			end
 		end
 	end
