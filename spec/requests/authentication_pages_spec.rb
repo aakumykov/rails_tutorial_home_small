@@ -20,6 +20,9 @@ describe 'Аутентификация,' do
 			it { should have_title(signin_title) }
 			it { should have_selector('div.alert.alert-error') }
 
+			it { should_not have_link('Settings') }
+			it { should_not have_link('Profile') }
+
 			describe 'после перехода на другую страницу,' do
 				before { click_link "Home" }
 				 it { should_not have_selector('div.alert.alert-error') }

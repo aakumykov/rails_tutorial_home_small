@@ -4,17 +4,17 @@ describe "Страницы пользователя," do
 
   subject { page }
 
-  describe 'страница профиля,' do
+	describe 'страница профиля,' do
 	 let(:user) { FactoryGirl.create(:user) }
 	 
 	 before(:each) { visit user_path(user) }
 
 	 it { should have_content(user.name) }
 	 it { should have_title(user.name) }
-  end
+	end
 
 
-  describe 'страница регистрации,' do
+	describe 'страница регистрации,' do
 
 	 before(:each) { visit signup_path }
 
@@ -57,7 +57,7 @@ describe "Страницы пользователя," do
 		end
 
 	 end
-  end
+	end
 
 
 	describe 'страница редактирования,' do
@@ -160,7 +160,19 @@ describe "Страницы пользователя," do
 				end
 			end
 		end
-
 	end
   
+
+  	describe 'запрещённые атрибуты,' do
+  		let(:user) { FactoryGirl.create(:user) }
+  		let(:params) do
+        { user: { admin: true, password: user.password,
+                  password_confirmation: user.password } }
+      end
+  		before do
+  			sign_in user, no_capybara: true
+  			patch user_path(user), params
+  		end
+  		specify { expect(user.reload).not_to be_admin }
+  	end
 end
