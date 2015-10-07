@@ -107,6 +107,18 @@ describe 'Аутентификация,' do
 			end
 		end
 
+		describe 'для не-админов' do
+			let(:user) { FactoryGirl.create(:user) }
+			let(:non_admin) { FactoryGirl.create(:user) }
+
+			before { sign_in non_admin, no_capybara: true }
+
+			describe 'отправка DELTE-запроса в Users#destroy' do
+				before { delete user_path(user) }
+				specify { expect(response).to redirect_to(root_url) }
+			end
+		end
+
 	end # авторизация конец
 
 end
