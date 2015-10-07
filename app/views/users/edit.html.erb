@@ -5,7 +5,7 @@
   <div class="span6 offset3">
 
     <%= form_for(@user) do |f| %>
-      <%= render 'params_fields', locals: { f: f } %>
+      <%= render partial: 'params_fields', locals: { f: f } %>
       <%= f.submit 'Сохранить изменения', class: "btn btn-large btn-primary" %>
     <% end %>
 
