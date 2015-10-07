@@ -129,6 +129,35 @@ describe "Страницы пользователя," do
 				end
 			end
 		end
+
+		describe 'ссылки удаления пользователей,' do
+
+			it { should_not have_link('удалить') }
+
+			describe 'режим администратора,' do
+				
+				let(:admin) { FactoryGirl.create(:admin) }
+				
+				before do
+					sign_in admin
+					visit users_path
+				end
+
+				it { should have_link('удалить', href: user_path(User.first)) }
+				
+				it 'должен мочь удалить другого пользователя,' do
+					expect {
+						click_link('удалить', match: :first)
+					}.to change(User, :count).by(-1)
+				end
+				
+				# у админа не должно быть ссылки на удаление самого себя
+				it { should_not have_link('удалить', href: user_path(admin)) }
+
+				# он не должен мочь удалить себя в обход ссылки!
+			end
+		end
+
 	end
   
 end
