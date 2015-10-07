@@ -37,10 +37,10 @@ describe "Страницы пользователя," do
 
 	 describe 'верно заполненная,' do
 		before(:each) do
-		  fill_in "Name",         with: "Example User"
-		  fill_in "Email",        with: "user@example.com"
-		  fill_in "Password",     with: "foobar"
-		  fill_in "Confirmation", with: "foobar"
+		  fill_in "Имя",         with: "Example User"
+		  fill_in "Электронная почта",        with: "user@example.com"
+		  fill_in "Пароль",     with: "foobar"
+		  fill_in "Подтверждение пароля", with: "foobar"
 		end
 
 		it 'должен быть создан пользователь,' do
