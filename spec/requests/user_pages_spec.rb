@@ -138,7 +138,7 @@ describe "Страницы пользователя," do
 				
 				let(:admin) { FactoryGirl.create(:admin) }
 				
-				before do
+				before(:each) do
 					sign_in admin
 					visit users_path
 				end
@@ -154,7 +154,10 @@ describe "Страницы пользователя," do
 				# у админа не должно быть ссылки на удаление самого себя
 				it { should_not have_link('удалить', href: user_path(admin)) }
 
-				# он не должен мочь удалить себя в обход ссылки!
+				describe 'он не должен мочь удалить себя в обход ссылки!' do
+					before { sign_in admin, no_capybara: true }
+					specify { expect { delete user_path(admin) }.not_to change(User, :count) }
+				end
 			end
 		end
 
