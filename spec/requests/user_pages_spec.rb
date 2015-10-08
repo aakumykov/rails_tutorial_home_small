@@ -196,14 +196,9 @@ describe "Страницы пользователя," do
   			specify { expect { post users_path, params }.not_to change(User, :count) }
   		end
 
-  		# describe '#update' do
-  		# 	let(:new_name) { 'New Name' }
-  		# 	specify { 
-  		# 		expect { 
-  		# 			patch user_path(user.id), { user: { name: 'New Name' } } 
-  		# 			User.reload.name
-  		# 		}
-  		# 	}
-  		# end
+  		describe '#new' do
+  			before { get signup_path }
+  			specify { expect(response).to redirect_to(root_path) }
+  		end
   	end
 end
