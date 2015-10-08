@@ -175,4 +175,35 @@ describe "Страницы пользователя," do
   		end
   		specify { expect(user.reload).not_to be_admin }
   	end
+
+
+  	describe 'прямой доступ зарегистрированных к Users,' do
+		let(:user) { FactoryGirl.create(:user) }
+		let(:params) {
+			{ user: { 
+				name: 'Somebody', 
+				email: 'somebody@example.com',
+				password: '123456', 
+				password_confirmation: '123456', 
+			} }
+		}
+  		
+  		before(:each) do
+  			sign_in user, no_capybara: true
+  		end
+
+  		describe '#create,' do
+  			specify { expect { post users_path, params }.not_to change(User, :count) }
+  		end
+
+  		# describe '#update' do
+  		# 	let(:new_name) { 'New Name' }
+  		# 	specify { 
+  		# 		expect { 
+  		# 			patch user_path(user.id), { user: { name: 'New Name' } } 
+  		# 			User.reload.name
+  		# 		}
+  		# 	}
+  		# end
+  	end
 end

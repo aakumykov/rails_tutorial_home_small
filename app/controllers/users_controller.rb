@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :signed_in_user, only: [:index, :edit, :update]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:destroy]
+  before_action :create_update, only: [:create]
 
   # страница регистрации пользователя
   def new
@@ -84,5 +85,10 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to root_url if !current_user.admin?
+    end
+
+    def create_update
+      #redirect_to root_url if ( params['authenticity_token'].nil? or params['authenticity_token'].blank? )
+      redirect_to root_path if signed_in?
     end
 end
