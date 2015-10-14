@@ -171,6 +171,24 @@ describe "Страницы пользователя," do
 	end
   
 
+	describe 'несуществующий пользователь,' do
+		before { 
+			let(:user1) { FactoryGirl.create(:user)}
+			let(:user2) { FactoryGirl.create(:user)}
+			let(:user3) { FactoryGirl.create(:user)}
+			let(:admin) { FactoryGirl.create(:admin)}
+			sign_in admin
+		}
+
+		describe 'перенаправление с несуществующего пользователя,' do
+			id1 = user1.id
+			delete user_path(user1)
+			user1 = User.find_by(id: id1)
+			puts '123'
+		end
+	end
+
+
   	describe 'запрещённые атрибуты,' do
   		let(:user) { FactoryGirl.create(:user) }
   		let(:params) do
