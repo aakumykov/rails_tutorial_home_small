@@ -172,20 +172,24 @@ describe "Страницы пользователя," do
   
 
 	describe 'несуществующий пользователь,' do
-		before { 
-			let(:user1) { FactoryGirl.create(:user)}
-			let(:user2) { FactoryGirl.create(:user)}
-			let(:user3) { FactoryGirl.create(:user)}
-			let(:admin) { FactoryGirl.create(:admin)}
-			sign_in admin
-		}
+		let!(:user) { FactoryGirl.create(:user) }
+		let(:user_id) { user.id }
+		let(:admin) { FactoryGirl.create(:admin) }
 
-		describe 'перенаправление с несуществующего пользователя,' do
-			id1 = user1.id
-			delete user_path(user1)
-			user1 = User.find_by(id: id1)
-			puts '123'
-		end
+		before { sign_in admin, no_capybara: true }
+
+		specify { expect(admin).to respond_to(:admin) }
+		#specify { expect { delete user_path(user) }.to change(User,:count).by(-1) }
+
+
+		#before(:each) {
+		#	sign_in admin
+			#delete user_path(user)
+		#}
+
+		#specify { 
+		#	expect( User.find_by(id: user_id) ).to eq nil 
+		#}
 	end
 
 
