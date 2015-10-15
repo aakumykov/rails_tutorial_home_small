@@ -173,30 +173,19 @@ describe "Страницы пользователя," do
 
 	describe 'просмотр профиля несуществующего пользователя,' do
 		let(:user) { FactoryGirl.create(:user) }
-		let(:user_id) { user.id }
-		let(:admin) { FactoryGirl.create(:admin) }
+  		
+  		# before(:each) do
+  		# 	sign_in user, no_capybara: true
+  		# end
 
-		describe 'пользователь действительно удалён,' do
-			before { 
-				sign_in admin, no_capybara: true
-				delete user_path(user)
-			}
-			specify { 
-				expect(User.find_by(id: user_id)).to eq nil 
-			}
-		end
-
-		describe 'перенаправление,' do
-			before {
-				sign_in admin
-				get user_path(user_id)
-			}
-			expect(response).to redirect_to(users_path)
-			expect(page).to have_selector('div.alert', text: 'Нет такого пользователя')
-			#expect(page).to have_selector('div.alert-error', text: 'Нет такого пользователя')
-		end
-
-	end
+  		describe 'перенаправление к списку пользователей,' do
+  			before(:each) do
+	  			sign_in user, no_capybara: true
+	  		end
+  			before { get user_path(User.last.id+1) }
+  			specify { expect(response).to redirect_to(users_path) }
+  		end
+  	end
 
 
   	describe 'запрещённые атрибуты,' do
