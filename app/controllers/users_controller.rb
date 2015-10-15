@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def show
   	@user = User.find_by(id: params[:id])
     if nil == @user
-      flash[:alert] = 'Нет такого пользователя'
+      flash[:notice] = 'Нет такого пользователя'
       redirect_to users_path
     else
       @microposts = @user.microposts.paginate(page: params[:page])

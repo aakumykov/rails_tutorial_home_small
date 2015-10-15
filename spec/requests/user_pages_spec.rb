@@ -181,9 +181,17 @@ describe "Страницы пользователя," do
   		describe 'перенаправление к списку пользователей,' do
   			before(:each) do
 	  			sign_in user, no_capybara: true
+	  			get user_path(User.last.id+1)
 	  		end
-  			before { get user_path(User.last.id+1) }
   			specify { expect(response).to redirect_to(users_path) }
+  		end
+
+  		describe 'перенаправление к списку пользователей2,' do
+  			before(:each) do
+	  			sign_in user, no_capybara: true
+	  			visit user_path(User.last.id+1)
+	  		end
+  			specify { expect(page).to have_selector('div.alert') }
   		end
   	end
 
