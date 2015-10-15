@@ -174,21 +174,19 @@ describe "Страницы пользователя," do
 	describe 'просмотр профиля несуществующего пользователя,' do
 		let(:user) { FactoryGirl.create(:user) }
   		
-  		# before(:each) do
-  		# 	sign_in user, no_capybara: true
-  		# end
+  		before(:each) do
+  			sign_in user, no_capybara: true
+  		end
 
   		describe 'перенаправление к списку пользователей,' do
   			before(:each) do
-	  			sign_in user, no_capybara: true
 	  			get user_path(User.last.id+1)
 	  		end
   			specify { expect(response).to redirect_to(users_path) }
   		end
 
-  		describe 'перенаправление к списку пользователей2,' do
+  		describe 'уведомление об ошибке,' do
   			before(:each) do
-	  			sign_in user, no_capybara: true
 	  			visit user_path(User.last.id+1)
 	  		end
   			specify { expect(page).to have_selector('div.alert') }
