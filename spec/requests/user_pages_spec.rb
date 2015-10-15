@@ -171,26 +171,30 @@ describe "Страницы пользователя," do
 	end
   
 
-	describe 'несуществующий пользователь,' do
+	describe 'просмотр профиля несуществующего пользователя,' do
 		let(:user) { FactoryGirl.create(:user) }
 		let(:user_id) { user.id }
 		let(:admin) { FactoryGirl.create(:admin) }
 
-		before { 
-			sign_in admin, no_capybara: true
-			delete user_path(user)
-		}
+		describe 'пользователь действительно удалён,' do
+			before { 
+				sign_in admin, no_capybara: true
+				delete user_path(user)
+			}
+			specify { 
+				expect(User.find_by(id: user_id)).to eq nil 
+			}
+		end
 
-		specify { 
-			expect(
-				User.find_by(id: user_id)
-			).to eq nil 
-			
-			expect(response).to redirect_to(root_path)
-
-			expect(page).to have_selector('div.alert.alert-error', text: 'Нет такого пользователя')
+		describe 'перенаправление,' do
+			before {
+				sign_in admin
+				get user_path(user_id)
+			}
+			expect(response).to redirect_to(users_path)
+			expect(page).to have_selector('div.alert', text: 'Нет такого пользователя')
 			#expect(page).to have_selector('div.alert-error', text: 'Нет такого пользователя')
-		}
+		end
 
 	end
 
