@@ -14,9 +14,19 @@ class MicropostsController < ApplicationController
 	end
 
 	def destroy
-		@micropost.destroy
-		@message_content = @micropost.content
-		flash[:success] = "Сообщение '#{@message_content}' удалено"
+		@micropost = Micropost.find_by(id: params[:id])
+		@micropost_content = @micropost.content
+
+		if @micropost.user == current_user
+		 	if @micropost.destroy
+		 		flash[:success] = "Сообщение '#{@micropost_content}' удалено"
+		 	else
+		 		flash[:error] = 'Ошибка удаления сообщения'
+		 	end
+		else
+		 	flash[:error] = 'Нельзя удалить чужое сообщение'
+		end
+
 		redirect_back_or current_user
 	end
 
