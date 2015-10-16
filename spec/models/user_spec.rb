@@ -22,6 +22,7 @@ describe User do
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:admin) }
 	it { should respond_to(:microposts) }
+	it { should respond_to(:feed) }
 
 	it { should be_valid }
 	it { should_not be_admin }
@@ -159,7 +160,7 @@ describe User do
 			expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
 		end
 
-		it 'должны удаляться микросообщения пользователя,' do
+		it 'микросообщения должны удаляться вместе с пользователем,' do
 			microposts = @user.microposts.to_a
 			@user.destroy
 			
@@ -167,6 +168,16 @@ describe User do
 			microposts.each do |micropost|
 				expect(Micropost.where(id: micropost.id)).to be_empty
 			end
+		end
+
+		describe 'статус,' do
+			let(:unfollowed_post) do
+				FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
+			end
+
+			its(:feed) { should include(newer_micropost) }
+			its(:feed) { should include(older_micropost) }
+			its(:feed) { should_not include(unfollowed_post) }
 		end
 	end
 
