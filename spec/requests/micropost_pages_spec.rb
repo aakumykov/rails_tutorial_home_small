@@ -8,6 +8,7 @@ describe 'Страницы микросообщений,' do
 
 	before(:each) { sign_in user }
 
+
 	describe 'создание микросообщения,' do
 		before(:each) { visit root_path }
 
@@ -29,6 +30,23 @@ describe 'Страницы микросообщений,' do
 			it 'должно создаваться микросообщение,' do
 				expect { click_button 'Отправить' }.to change(Micropost, :count).by(1)
 			end
+		end
+	end
+
+
+	describe 'удаление микросообщения,' do
+		before { FactoryGirl.create(:micropost, user: user) }
+
+		describe 'корректным пользоватлем,' do
+			before { visit root_path }
+
+			it 'микросообщение должно быть удалено,' do
+				expect { click_link 'удалить' }.to change(Micropost, :count).by(-1)
+			end
+		end
+
+		describe 'некорректным пользователем,' do
+			
 		end
 	end
 
