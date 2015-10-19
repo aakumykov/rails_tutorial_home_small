@@ -1,0 +1,7 @@
+<% if current_user?(micropost.user) %>
+	<%= 
+		link_to 'удалить', micropost, method: :delete,
+			data: { confirm: 'Удалить сообщение?' + "\n\n" + '"' + micropost.content + '"' },
+			title: micropost.content
+	%>
+<% end %>
