@@ -16,7 +16,13 @@ class UsersController < ApplicationController
 
   # профиль пользователя
   def show
-  	@user = User.find(params[:id])
+  	@user = User.find_by(id: params[:id])
+    if nil == @user
+      flash[:notice] = 'Нет такого пользователя'
+      redirect_to users_path
+    else
+      @microposts = @user.microposts.paginate(page: params[:page])
+    end
   end
 
   # создание пользователя
@@ -69,13 +75,6 @@ class UsersController < ApplicationController
         :password, 
         :password_confirmation,
       )
-    end
-
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: 'Пожалуйста, войдите.'
-      end
     end
 
     def correct_user

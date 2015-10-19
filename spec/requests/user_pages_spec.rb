@@ -5,12 +5,20 @@ describe "Страницы пользователя," do
   subject { page }
 
 	describe 'страница профиля,' do
-	 let(:user) { FactoryGirl.create(:user) }
+		let(:user) { FactoryGirl.create(:user) }
+		let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
+		let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
 	 
-	 before(:each) { visit user_path(user) }
+		before { visit user_path(user) }
 
-	 it { should have_content(user.name) }
-	 it { should have_title(user.name) }
+		it { should have_content(user.name) }
+		it { should have_title(user.name) }
+
+		describe 'микросообщения,' do
+			it { should have_content(m1.content) }
+			it { should have_content(m2.content) }
+			it { should have_content(user.microposts.count) }      
+		end
 	end
 
 
@@ -162,6 +170,29 @@ describe "Страницы пользователя," do
 		end
 	end
   
+
+	describe 'просмотр профиля несуществующего пользователя,' do
+		let(:user) { FactoryGirl.create(:user) }
+  		
+  		before(:each) do
+  			sign_in user, no_capybara: true
+  		end
+
+  		describe 'перенаправление к списку пользователей,' do
+  			before(:each) do
+	  			get user_path(User.last.id+1)
+	  		end
+  			specify { expect(response).to redirect_to(users_path) }
+  		end
+
+  		describe 'уведомление об ошибке,' do
+  			before(:each) do
+	  			visit user_path(User.last.id+1)
+	  		end
+  			specify { expect(page).to have_selector('div.alert') }
+  		end
+  	end
+
 
   	describe 'запрещённые атрибуты,' do
   		let(:user) { FactoryGirl.create(:user) }

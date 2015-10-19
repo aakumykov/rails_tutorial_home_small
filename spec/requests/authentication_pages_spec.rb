@@ -58,7 +58,7 @@ describe 'Аутентификация,' do
 		describe 'для невошедших пользователей,' do
 			let(:user) { FactoryGirl.create(:user) }
 
-			describe 'в контроллере Users,' do
+			describe 'контроллер Users,' do
 
 				describe 'посещение страницы редактирования профиля,' do
 					before(:each) { visit edit_user_path(user) }
@@ -89,6 +89,18 @@ describe 'Аутентификация,' do
 						expect(page).to have_title('Редактирование пользователя')
 						#it { should have_title('Редактирование пользователя') }
 					end
+				end
+			end
+
+			describe 'контроллер Microposts,' do
+				describe 'отправка в действие create,' do
+					before { post microposts_path }
+					specify { expect(response).to redirect_to(signin_path) }
+				end
+
+				describe 'отправка в действие destroy,' do
+					before { delete micropost_path(FactoryGirl.create(:micropost)) }
+					specify { expect(response).to redirect_to(signin_path) }
 				end
 			end
 		end
