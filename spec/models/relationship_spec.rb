@@ -16,5 +16,15 @@ describe 'Отношения,' do
 		its(:followed) { should eq followed }
 	end
 
+	describe 'когда отсутствует followed_id,' do
+		before { relationship.followed_id = nil }
+		it { should_not be_valid }
+	end
+
+	describe 'когда отсутствует follower_id,' do
+		before { relationship.follower_id = nil }
+		it { should_not be_valid }
+	end
+
 	
 end
