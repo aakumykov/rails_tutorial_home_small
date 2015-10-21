@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
 	has_many :microposts, dependent: :destroy
-	has_many :relationships, foreign_key: "reader_id", dependent: :destroy
+	
+	has_many :relationships, foreign_key: 'reader_id', dependent: :destroy
 	has_many :author_users, through: :relationships, source: :author
+	
+	has_many :reverse_relationships, foreign_key: 'author_id', class_name: 'Relationship', dependent: :destroy
+	has_many :reader_users, through: :reverse_relationships, source: :reader
+
 
 	before_create :create_remember_token
 	before_save { email.downcase! }
