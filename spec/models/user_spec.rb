@@ -24,6 +24,9 @@ describe User do
 	it { should respond_to(:microposts) }
 	it { should respond_to(:feed) }
 	it { should respond_to(:relationships) }
+	it { should respond_to(:authors) }
+	it { should respond_to(:reader?) }
+	it { should respond_to(:read!) }
 
 	it { should be_valid }
 	it { should_not be_admin }
@@ -181,6 +184,27 @@ describe User do
 			its(:feed) { should_not include(unfollowed_post) }
 		end
 	end
+
+
+	describe 'чтение других,' do
+		let(:other_user) { FactoryGirl.create(:user) }
+		before do
+			@user.save
+			@user.read!(other_user)
+		end
+
+		it { should be_reader(other_user) }
+		its(:authors) { should include(other_user) }
+
+
+		describe 'отказ от чтения,' do
+			before { @user.unread!(other_user) }
+
+			it { should_not be_reader(other_user) }
+			its(:authors) { should_not include(other_user) }
+		end
+	end
+
 
 
 end
