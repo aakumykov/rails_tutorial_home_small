@@ -34,6 +34,17 @@ describe 'Статические страницы,' do
 				end
 			end
 		end
+
+		describe 'статистика читаемых/читающих,' do
+			let(:other_user) { FactoryGirl.create(:user) }
+			before do
+				other_user.read!(user)
+				visit root_path
+			end
+
+			it { should have_link("0 following", href: following_user_path(user)) }
+			it { should have_link("1 reader_users", href: reader_users_user_path(user)) }
+		end
 	end
 
 	describe "Help page" do
