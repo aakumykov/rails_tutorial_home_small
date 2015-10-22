@@ -1,15 +1,15 @@
 <% @user ||= current_user %>
 <div class="stats">
-  <a href="<%= authors_user_path(@user) %>">
-    <strong id="authors" class="stat">
-      <%= @user.author_users.count %>
-    </strong>
-    authors
-  </a>
-  <a href="<%= readers_user_path(@user) %>">
-    <strong id="readers" class="stat">
-      <%= @user.reader_users.count %>
-    </strong>
-    reader_users
-  </a>
+	<a href="<%= authors_user_path(@user) %>">
+		<strong id="authors" class="stat">
+			<%= @user.author_users.count %>
+		</strong>
+		authors
+	</a>
+	<a href="<%= readers_user_path(@user) %>">
+		<strong id="readers" class="stat">
+			<%= @user.reader_users.count %>
+		</strong>
+		reader_users
+	</a>
 </div>
