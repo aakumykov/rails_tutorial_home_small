@@ -11,6 +11,7 @@ describe 'Статические страницы,' do
 		it { should have_selector('h1', text: heading) }
 	end
 
+
 	describe 'домашняя страница,' do
 		before { visit root_path }
 
@@ -35,17 +36,18 @@ describe 'Статические страницы,' do
 			end
 		end
 
-		describe 'статистика читаемых/читающих,' do
+		describe 'статистика авторов/читателей,' do
 			let(:other_user) { FactoryGirl.create(:user) }
 			before do
 				other_user.read!(user)
 				visit root_path
 			end
 
-			it { should have_link("0 following", href: following_user_path(user)) }
-			it { should have_link("1 reader_users", href: reader_users_user_path(user)) }
+			it { should have_link("0 authors", href: authors_user_path(user)) }
+			it { should have_link("1 reader_users", href: readers_user_path(user)) }
 		end
 	end
+
 
 	describe "Help page" do
 		before { visit help_path }
@@ -54,6 +56,7 @@ describe 'Статические страницы,' do
 		it_should_behave_like 'all static pages'
 	end
 
+
 	describe "About page" do
 		before { visit about_path }
 		let(:page_title) { 'About' }
@@ -61,12 +64,14 @@ describe 'Статические страницы,' do
 		it_should_behave_like 'all static pages'
 	end
 
+
 	describe "Contact page" do
 		before { visit contact_path }
 		let(:page_title) { 'Contact' }
 		let(:heading) {'Контакты'}
 		it_should_behave_like 'all static pages'
 	end
+
 
 	it "should have the right links on the layout" do
 
@@ -97,4 +102,6 @@ describe 'Статические страницы,' do
 		#click_on "sample app"
 		#expect(page).to # заполнить
 	end
+
+
 end
