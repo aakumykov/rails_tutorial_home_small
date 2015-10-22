@@ -232,4 +232,34 @@ describe "Страницы пользователя," do
   			specify { expect(response).to redirect_to(root_path) }
   		end
   	end
+
+
+	describe 'авторы/читатели,' do
+		let(:user) { FactoryGirl.create(:user) }
+		let(:other_user) { FactoryGirl.create(:user) }
+		
+		before { user.read!(other_user) }
+
+		describe 'авторы,' do
+			before do
+				sign_in user
+				visit authors_user_path(user)
+			end
+
+			it { should have_title(full_title('Авторы')) }
+			it { should have_selector('h3', text: 'Авторы') }
+			it { should have_link(other_user.name, href: user_path(other_user)) }
+		end
+
+		describe 'читатели,' do
+			before do
+				sign_in other_user
+				visit readers_user_path(other_user)
+			end
+
+			it { should have_title(full_title('Читатели')) }
+			it { should have_selector('h3', text: 'Читатели') }
+			it { should have_link(user.name, href: user_path(user)) }
+		end
+	end
 end
