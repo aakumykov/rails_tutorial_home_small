@@ -74,6 +74,16 @@ describe 'Аутентификация,' do
 					before(:each) { visit users_path }
 					it { should have_title('Sign in') }
 				end
+
+				describe 'посещение страницы "авторы",' do
+					before { visit authors_user_path(user) }
+					it { should have_title('Sign in') }
+				end
+
+				describe 'посещение страницы "читатели",' do
+					before { visit readers_user_path(user) }
+					it { should have_title('Sign in') }
+				end
 			end
 
 			describe 'посещение защищённой страницы,' do
