@@ -34,17 +34,17 @@ describe 'Статические страницы,' do
 					expect(page).to have_selector("li##{item.id}", text: item.content)
 				end
 			end
-		end
 
-		describe 'статистика авторов/читателей,' do
-			let(:other_user) { FactoryGirl.create(:user) }
-			before do
-				other_user.read!(user)
-				visit root_path
+			describe 'статистика авторов/читателей,' do
+				let(:other_user) { FactoryGirl.create(:user) }
+				before do
+					other_user.read!(user)
+					visit root_path
+				end
+
+				it { should have_link("0 читаемых", href: authors_user_path(user)) }
+				it { should have_link("1 читающих", href: readers_user_path(user)) }
 			end
-
-			it { should have_link("0 authors", href: authors_user_path(user)) }
-			it { should have_link("1 reader_users", href: readers_user_path(user)) }
 		end
 	end
 
