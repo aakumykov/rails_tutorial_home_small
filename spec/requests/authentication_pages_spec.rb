@@ -146,4 +146,21 @@ describe 'Аутентификация,' do
 
 	end # авторизация конец
 
+	# describe 'повторный вход,' do
+	# 	let(:user) { FactoryGirl.create(:user) }
+	# 	before { sign_in user }
+
+	# 	describe 'увод со страницы входа,' do
+	# 		before { visit signin_path }
+	# 		it { should have_title('Ruby on Rails Tutorial Sample App') }
+	# 		it { should_not have_content('Sign in') }
+	# 	end
+	# end
 end
+
+
+# before(:each) { visit edit_user_path(user) }
+# it { should have_title('Sign in') }
+
+# before(:each) { patch user_path(user) }
+# specify { expect(response).to redirect_to(signin_path) }
