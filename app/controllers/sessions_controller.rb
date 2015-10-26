@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 	
 	# страница входа пользователя
 	def new
+		redirect_back_or root_url if signed_in?
 	end
 
 	# создание сессии
