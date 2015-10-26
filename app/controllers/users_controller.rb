@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :signed_in_user, only: [:index, :edit, :update]
+	before_action :signed_in_user, only: [:index, :edit, :update, :authors, :readers]
 	before_action :correct_user, only: [:edit, :update]
 	before_action :admin_user, only: [:destroy]
 	before_action :create_and_new, only: [:create, :new] # это не защищает от атаки незарегистрированным
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 
-
+	# список читаемых
 	def authors
 		@title = "Авторы"
 		@user = User.find(params[:id])
@@ -73,6 +73,7 @@ class UsersController < ApplicationController
 		render 'show_related'
 	end
 
+	# список читателей
 	def readers
 		@title = "Читатели"
 		@user = User.find(params[:id])
