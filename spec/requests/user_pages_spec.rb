@@ -312,4 +312,15 @@ describe "Страницы пользователя," do
 			it { should have_link(user.name, href: user_path(user)) }
 		end
 	end
+
+
+	# describe 'повторный вход,' do
+	# 	let(:user) { FactoryGirl.create(:user) }
+	# 	before { sign_in user }
+
+	# 	describe 'увод со страницы входа,' do
+	# 		before { visit signin_path }
+	# 		it { should_not have_content('Вход на сайт') }
+	# 	end
+	# end
 end
