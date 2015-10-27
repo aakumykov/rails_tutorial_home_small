@@ -113,6 +113,18 @@ describe 'Аутентификация,' do
 					specify { expect(response).to redirect_to(signin_path) }
 				end
 			end
+
+			describe 'контроллер Relationships,' do
+				describe 'отправка данных в действие create,' do
+					before { post relationships_path }
+					specify { expect(response).to redirect_to(signin_path) }
+				end
+
+				describe 'отправка данных в действие destroy,' do
+					before { delete relationship_path(1) }
+					specify { expect(response).to redirect_to(signin_path) }
+				end
+			end
 		end
 
 		describe 'для ложных пользователей,' do
