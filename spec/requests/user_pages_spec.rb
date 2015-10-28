@@ -19,6 +19,56 @@ describe "Страницы пользователя," do
 			it { should have_content(m2.content) }
 			it { should have_content(user.microposts.count) }      
 		end
+
+		describe 'кнопки follow/unfollow,' do
+			let(:other_user) { FactoryGirl.create(:user) }
+			before { sign_in user }
+
+			describe 'следование за пользователем,' do
+				before { visit user_path(other_user) }
+
+				it 'должно увеличиваться количество авторов пользователя,' do
+					expect do
+						click_button 'Follow'
+					end.to change(user.author_users, :count).by(1)
+				end
+
+				it 'должно увеличиваться количество читателей автора,' do
+					expect do
+						click_button 'Follow'
+					end.to change(other_user.reader_users, :count).by(1)
+				end
+
+				describe 'изменение вида кнопки на "Unfollow",' do
+					before { click_button 'Follow' }
+						it { should have_xpath("//input[@value='Unfollow']") }
+					end
+				end
+
+			describe 'прекращение следования,' do
+				before do
+					user.read!(other_user)
+					visit user_path(other_user)
+				end
+
+				it 'должно уменьшаться количество авторов пользователя,' do
+					expect do
+						click_button 'Unfollow'
+					end.to change(user.author_users, :count).by(-1)
+				end
+
+				it 'должно уменьшаться количество читателей автора,' do
+					expect do
+						click_button 'Unfollow'
+					end.to change(other_user.reader_users, :count).by(-1)
+				end
+
+				describe 'изменение вида кнопки на "Follow",' do
+					before { click_button 'Unfollow' }
+					it { should have_xpath("//input[@value='Follow']") }
+				end
+			end
+		end
 	end
 
 
