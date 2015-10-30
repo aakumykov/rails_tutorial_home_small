@@ -74,6 +74,16 @@ describe 'Аутентификация,' do
 					before(:each) { visit users_path }
 					it { should have_title('Sign in') }
 				end
+
+				describe 'посещение страницы "авторы",' do
+					before { visit authors_user_path(user) }
+					it { should have_title('Sign in') }
+				end
+
+				describe 'посещение страницы "читатели",' do
+					before { visit readers_user_path(user) }
+					it { should have_title('Sign in') }
+				end
 			end
 
 			describe 'посещение защищённой страницы,' do
@@ -100,6 +110,18 @@ describe 'Аутентификация,' do
 
 				describe 'отправка в действие destroy,' do
 					before { delete micropost_path(FactoryGirl.create(:micropost)) }
+					specify { expect(response).to redirect_to(signin_path) }
+				end
+			end
+
+			describe 'контроллер Relationships,' do
+				describe 'отправка данных в действие create,' do
+					before { post relationships_path }
+					specify { expect(response).to redirect_to(signin_path) }
+				end
+
+				describe 'отправка данных в действие destroy,' do
+					before { delete relationship_path(1) }
 					specify { expect(response).to redirect_to(signin_path) }
 				end
 			end

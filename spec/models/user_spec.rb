@@ -18,14 +18,29 @@ describe User do
 	it { should respond_to(:password_digest) }
 	it { should respond_to(:password) }
 	it { should respond_to(:password_confirmation) }
+
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:remember_token) }
+
 	it { should respond_to(:admin) }
+
 	it { should respond_to(:microposts) }
 	it { should respond_to(:feed) }
+	
+	it { should respond_to(:relationships) }
+	it { should respond_to(:author_users) }
+	
+	it { should respond_to(:reverse_relationships) }
+	it { should respond_to(:reader_users) }
+
+	it { should respond_to(:reader?) }
+	it { should respond_to(:read!) }
+
+
 
 	it { should be_valid }
 	it { should_not be_admin }
+
 
 	describe 'когда отсутствует имя' do
 		before { @user.name = ' ' }
@@ -170,16 +185,54 @@ describe User do
 			end
 		end
 
-		describe 'статус,' do
-			let(:unfollowed_post) do
+		describe 'состояние,' do
+			let(:unauthor_post) do
 				FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
+			end
+			let(:author_user) { FactoryGirl.create(:user) }
+
+			before do
+				@user.read!(author_user)
+				3.times { author_user.microposts.create!(content: 'Кошка-морошка') }
 			end
 
 			its(:feed) { should include(newer_micropost) }
 			its(:feed) { should include(older_micropost) }
-			its(:feed) { should_not include(unfollowed_post) }
+			its(:feed) { should_not include(unauthor_post) }
+			its(:feed) do
+				author_user.microposts.each do |micropost|
+					should include(micropost)
+				end
+			end
 		end
 	end
+
+
+	describe 'чтение других,' do
+		let(:other_user) { FactoryGirl.create(:user) }
+		before do
+			@user.save
+			@user.read!(other_user)
+		end
+
+		it { should be_reader(other_user) }
+		its(:author_users) { should include(other_user) }
+
+
+		describe 'читатели,' do
+			subject { other_user }
+			its(:reader_users) { should include(@user) }
+		end
+
+
+		describe 'отказ от чтения,' do
+			before { @user.unread!(other_user) }
+
+			it { should_not be_reader(other_user) }
+			its(:author_users) { should_not include(other_user) }
+		end
+	end
+
 
 
 end
