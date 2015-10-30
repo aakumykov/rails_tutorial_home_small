@@ -38,8 +38,12 @@ class User < ActiveRecord::Base
 
 
 	def feed
+		# microposts
+		
 		# Это предварительное решение. См. полную реализацию в "Following users".
-		Micropost.where("user_id = ?", id)
+		#Micropost.where("user_id = ?", id)
+
+		Micropost.posts_for(self)
 	end
 
 
