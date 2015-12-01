@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe User do
 
+	# создание тестового объекта
 	before do
 		@user = User.new(
 			name: "Example User", 
@@ -13,6 +14,7 @@ describe User do
 
 	subject { @user }
 
+	# прямые и связанные свойства модели
 	it { should respond_to(:name) }
 	it { should respond_to(:email) }
 	it { should respond_to(:password_digest) }
@@ -37,11 +39,14 @@ describe User do
 	it { should respond_to(:read!) }
 
 
-
+	# валидность
 	it { should be_valid }
+
+	# специальное свойство
 	it { should_not be_admin }
 
 
+	# проверка того, что валидации работают
 	describe 'когда отсутствует имя' do
 		before { @user.name = ' ' }
 		it { should_not be_valid }
@@ -120,6 +125,8 @@ describe User do
 		it { should be_invalid }
 	end
 
+
+	# отдельный метод
 	describe 'значение, возвращаемое методом authenticate' do
 		before { @user.save }
 		let(:found_user) { User.find_by(email: @user.email) }
@@ -136,6 +143,7 @@ describe User do
 		end
 	end
 
+	# поведение свойства
 	describe 'электроннная почта в смешанном решистре' do
 		let(:mixed_case_email) { "Foo@ExAMPle.CoM" }
 
@@ -146,11 +154,13 @@ describe User do
 		end
 	end
 
+	# поведение свойства
 	describe 'токен памяти' do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
 	end
 
+	# отдельный случай поведения
 	describe 'с атрибутом "admin=true",' do
 		before do
 			@user.save!
@@ -160,6 +170,8 @@ describe User do
 		it { should be_admin }
 	end
 
+
+	# работа связей с другими моделями
 	describe 'связь с микросообщениями,' do
 		before { @user.save }
 		
