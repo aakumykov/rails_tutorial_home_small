@@ -10,7 +10,7 @@ describe 'Взаимоотношения,' do
 
   it { should be_valid }
 
-  describe 'методы читателя,' do
+  describe 'методы-свойства читателя,' do
     it { should respond_to(:reader) }
     it { should respond_to(:author) }
     its(:reader) { should eq reader }

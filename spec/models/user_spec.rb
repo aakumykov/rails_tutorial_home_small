@@ -13,40 +13,41 @@ describe User do
 	end
 
 	subject { @user }
-
-	# прямые и связанные свойства модели
-	it { should respond_to(:name) }
-	it { should respond_to(:email) }
-	it { should respond_to(:password_digest) }
-	it { should respond_to(:password) }
-	it { should respond_to(:password_confirmation) }
-
-	it { should respond_to(:authenticate) }
-	it { should respond_to(:remember_token) }
-
-	it { should respond_to(:admin) }
-
-	it { should respond_to(:microposts) }
-	it { should respond_to(:feed) }
 	
-	it { should respond_to(:relationships) }
-	it { should respond_to(:author_users) }
-	
-	it { should respond_to(:reverse_relationships) }
-	it { should respond_to(:reader_users) }
+	### методы свойства
+		# наличие
+		it { should respond_to(:name) }
+		it { should respond_to(:email) }
+		it { should respond_to(:password_digest) }
+		it { should respond_to(:password) }
+		it { should respond_to(:password_confirmation) }
 
-	it { should respond_to(:reader?) }
-	it { should respond_to(:read!) }
+		it { should respond_to(:authenticate) }
+		it { should respond_to(:remember_token) }
+
+		it { should respond_to(:admin) }
+
+		it { should respond_to(:microposts) }
+		it { should respond_to(:feed) }
+		
+		it { should respond_to(:relationships) }
+		it { should respond_to(:author_users) }
+		
+		it { should respond_to(:reverse_relationships) }
+		it { should respond_to(:reader_users) }
+
+		it { should respond_to(:reader?) }
+		it { should respond_to(:read!) }
+
+		# специальное свойство
+		it { should_not be_admin }
 
 
-	# валидность
+	### валидность
+	# общая
 	it { should be_valid }
 
-	# специальное свойство
-	it { should_not be_admin }
-
-
-	# проверка того, что валидации работают
+	# частная
 	describe 'когда отсутствует имя' do
 		before { @user.name = ' ' }
 		it { should_not be_valid }
@@ -126,7 +127,8 @@ describe User do
 	end
 
 
-	# отдельный метод
+	### методы свойства
+	# работа
 	describe 'значение, возвращаемое методом authenticate' do
 		before { @user.save }
 		let(:found_user) { User.find_by(email: @user.email) }
@@ -143,7 +145,6 @@ describe User do
 		end
 	end
 
-	# поведение свойства
 	describe 'электроннная почта в смешанном решистре' do
 		let(:mixed_case_email) { "Foo@ExAMPle.CoM" }
 
@@ -154,13 +155,11 @@ describe User do
 		end
 	end
 
-	# поведение свойства
 	describe 'токен памяти' do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
 	end
 
-	# отдельный случай поведения
 	describe 'с атрибутом "admin=true",' do
 		before do
 			@user.save!
@@ -171,7 +170,7 @@ describe User do
 	end
 
 
-	# работа связей с другими моделями
+	### связи между моделями
 	describe 'связь с микросообщениями,' do
 		before { @user.save }
 		
@@ -218,7 +217,6 @@ describe User do
 			end
 		end
 	end
-
 
 	describe 'чтение других,' do
 		let(:other_user) { FactoryGirl.create(:user) }

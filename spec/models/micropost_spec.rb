@@ -9,14 +9,18 @@ describe 'Micropost,' do
 
 	subject { @micropost }
 
-	# проверка свойств
+	### методы-свойства
+	# наличие
 	it { should respond_to(:content) }
 	it { should respond_to(:user_id) }
 	it { should respond_to(:user) }
 	its(:user) { should eq user }
 	
+	###  валидность
+	# общая
 	it { should be_valid }
 
+	# частная
 	describe 'когда отсутствует user_id,' do
 		before { @micropost.user_id = nil }
 		it { should_not be_valid }
